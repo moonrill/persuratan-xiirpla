@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\URL; @endphp
 @extends('layouts.app')
 @section('title', 'Manajemen Surat')
 @section('content')
@@ -19,8 +20,11 @@
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Surat</h1>
                         </div>
                         <div class="modal-body">
-                            <form id="tambah-surat-form">
+                            <form id="tambah-surat-form" enctype="multipart/form-data">
                                 <div class="form-group">
+                                    @auth
+                                        <input type="hidden" name="id_user" class="d-none" value="{{ Auth::user()["id"] }}">
+                                    @endauth
                                     <label>Jenis Surat</label>
                                     <select name="id_jenis_surat" id="jenisSurat" class="form-select mb-3">
                                         <option selected value="">Pilih jenis surat</option>
@@ -31,13 +35,20 @@
                                     <label>Tanggal Surat</label>
                                     <input type="date" name="tanggal_surat" id="tanggalSurat" class="form-control mb-3">
                                     <label>Ringkasan</label>
-                                    <textarea name="ringkasan" class="form-control" rows="7"
+                                    <textarea name="ringkasan" class="form-control mb-3" rows="7"
                                               placeholder="Tulis ringkasan surat disini..."
                                               style="resize: none"></textarea>
-                                    <label>File</label>
-                                    <label for="fileUpload" class="btn w-auto btn-outline-success form-control">Upload
-                                        File</label>
-                                    <input type="file" accept=".pdf" name="file" id="fileUpload" class="d-none">
+                                    <label class="d-block">File : </label>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-3">
+                                            <label for="fileUpload" class="btn p-1 w-100 btn-outline-success form-control">Upload
+                                                File</label>
+                                            <input type="file" accept=".pdf" name="file" id="fileUpload" class="d-none">
+                                        </div>
+                                        <div class="col p-0">
+                                            <p class="fileName m-0 d-inline-block"></p>
+                                        </div>
+                                    </div>
                                     @csrf
                                 </div>
                             </form>
@@ -82,7 +93,7 @@
                                 <td>{{$s->ringkasan}}</td>
                                 <td class="col-1">
                                     @if($s->file)
-                                        <a class="btn btn-primary">Download</a>
+                                        <a class="btn btn-primary" href="{{url("dashboard/surat?path=$s->file", ['download'])}}">Download</a>
                                     @else
                                         <p>No File</p>
                                     @endif
@@ -137,19 +148,28 @@
 @section('footer')
     <script type="module">
         $('.table').DataTable();
-        /*-------------------------- TAMBAH USER -------------------------- */
+
+        $('#fileUpload').on('change', function () {
+            $('.fileName').append(document.createTextNode($(this).val().replace(/.*(\/|\\)/, '')));
+        })
+
+        /*-------------------------- TAMBAH SURAT -------------------------- */
         $('#tambah-surat-form').on('submit', function (e) {
             e.preventDefault();
             let data = new FormData(e.target);
-            axios.post('/dashboard/surat/tambah', Object.fromEntries(data))
-                .then(() => {
+            // console.log(data)
+            axios.post('/dashboard/surat', data, {
+                'Content-Type': 'multipart/form-data'
+            })
+                .then((res) => {
                     $('#tambah-surat-modal').css('display', 'none')
                     swal.fire('Berhasil tambah data!', '', 'success').then(function () {
                         location.reload();
                     })
                 })
-                .catch(() => {
+                .catch((err) => {
                     swal.fire('Gagal tambah data!', '', 'warning');
+                    console.log(err)
                 });
         })
 
@@ -159,7 +179,7 @@
             let idJS = $(this).attr('idJS');
             $(`#edit-js-form-${idJS}`).on('submit', function (e) {
                 e.preventDefault();
-                let data = Object.fromEntries(new FormData(e.target));
+                let data = new FormData(e.target);
                 data['id'] = idJS;
                 axios.post(`/dashboard/surat/jenis/${idJS}/edit`, data)
                     .then(() => {
@@ -176,7 +196,7 @@
 
         /*-------------------------- HAPUS USER -------------------------- */
         $('.table').on('click', '.hapusBtn', function () {
-            let idJS = $(this).closest('tr').attr('idJS');
+            let idSurat = $(this).closest('tr').attr('idSurat');
             swal.fire({
                 title: "Apakah anda ingin menghapus data ini?",
                 showCancelButton: true,
@@ -186,7 +206,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     //dilakukan proses hapus
-                    axios.delete(`/dashboard/surat/jenis/${idJS}/delete`)
+                    axios.delete(`/dashboard/surat/${idSurat}`)
                         .then(function (response) {
                             console.log(response);
                             if (response.data.success) {

@@ -25,6 +25,7 @@
                         </div>
 
                         <div class="text-danger errors">
+                            <p class="err-message"></p>
                         </div>
                         @csrf
 
@@ -50,10 +51,20 @@
                     username,
                     password
                 }
-            }).then(function ({data}) {
-                window.location = '/dashboard';
-            }).catch(function ({response}) {
-                $('.errors').append(`<p>${response.data.errors.message}</p>`)
+            }).then(async () => {
+                await swal.fire({
+                    title: 'Login berhasil!',
+                    text: 'Redirecting to dashboard...',
+                    icon: 'success',
+                    timer: 1000,
+                    showConfirmButton: false
+                })
+                window.location = '/dashboard'
+                console.log('success')
+            }).catch(({response}) => {
+                if (!$('.err-message').text()) {
+                    $('.err-message').append(document.createTextNode(response.data.errors.message))
+                }
             })
 
         })
