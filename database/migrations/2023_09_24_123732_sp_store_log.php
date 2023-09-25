@@ -22,7 +22,7 @@ return new class extends Migration
             )
             MODIFIES SQL DATA
             BEGIN
-                INSERT INTO log (username, action, log)
+                INSERT INTO logs (username, action, log)
                 VALUES (Username, Action, Log);
             END;"
         );

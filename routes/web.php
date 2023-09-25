@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisSuratController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
         });
 
     });
+
     /* Surat */
     Route::controller(SuratController::class)->group(function () {
         Route::get('/surat', 'index');
@@ -50,5 +52,10 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
         Route::post('/surat', 'store');
         Route::get('/surat/download', 'download');
         Route::delete('/surat/{id}', 'delete');
+    });
+
+    /* Log */
+    Route::controller(LogController::class)->group(function () {
+        Route::get('/log', 'index');
     });
 });

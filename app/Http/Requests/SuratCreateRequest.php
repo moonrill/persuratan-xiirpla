@@ -25,7 +25,7 @@ class SuratCreateRequest extends FormRequest
             'id_jenis_surat' => ['required'],
             'id_user' => ['required'],
             'tanggal_surat' => ['required', 'date'],
-            'ringkasan' => ['required'],
+            'ringkasan' => ['nullable'],
             'file' => ['nullable', 'mimes:pdf']
         ];
     }

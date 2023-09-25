@@ -40,7 +40,7 @@
                 </a>
             </div>
             <div class="col-3">
-                <a href="{{url('dashboard/surat')}}" class="text-decoration-none">
+                <a href="{{url('dashboard/log')}}" class="text-decoration-none">
                     <div class="card bg-c-pink">
                         <div class="card-body text-white">
                             <h1 class="text-right"><i class="bi bi-activity"></i><span class="f-right">{{$log}}</span>
