@@ -87,9 +87,9 @@
                         @foreach($surat as $s)
                             <tr idSurat="{{$s->id}}">
                                 <td class="col-1">{{$no}}</td>
-                                <td>{{$s->jenis->jenis_surat}}</td>
+                                <td class="col-2">{{$s->jenis->jenis_surat}}</td>
                                 <td>{{$s->user->username}}</td>
-                                <td>{{$s->tanggal_surat}}</td>
+                                <td class="col-2">{{$s->tanggal_surat}}</td>
                                 <td>{{$s->ringkasan}}</td>
                                 <td class="col-1">
                                     @if($s->file)
@@ -98,44 +98,10 @@
                                         <p>No File</p>
                                     @endif
                                 </td>
-                                <td class="col-2">
-                                    <!-- Button trigger edit modal -->
-                                    <button type="button" class="editBtn btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal-{{$s->id}}" idSurat="{{$s->id}}">
-                                        Edit
-                                    </button>
+                                <td class="col-1">
                                     <button class="hapusBtn btn btn-danger">Hapus</button>
                                 </td>
                             </tr>
-                            <!-- Edit User Modal -->
-                            <div class="modal fade" id="edit-modal-{{$s->id}}" tabindex="-1"
-                                 aria-labelledby="exampleModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Jenis Surat</h1>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="edit-js-form-{{$s->id}}">
-                                                <div class="form-group">
-
-                                                    @csrf
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                Cancel
-                                            </button>
-                                            <button type="submit" class="btn btn-primary edit-btn"
-                                                    form="edit-js-form-{{$s->id}}">
-                                                Edit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                         </tbody>
                     </table>

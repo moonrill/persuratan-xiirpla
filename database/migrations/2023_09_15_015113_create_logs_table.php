@@ -12,10 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('log', function (Blueprint $table) {
             $table->id();
+            $table->string('username');
+            $table->enum('action', ['INSERT', 'UPDATE', 'DELETE']);
             $table->text('log');
-            $table->date('created_at')->default(Carbon::now());
+            $table->date('created_at')->default(Carbon::now('Asia/Jakarta'));
         });
     }
 
