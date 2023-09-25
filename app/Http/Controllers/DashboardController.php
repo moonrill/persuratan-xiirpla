@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\JenisSuratChart;
 use App\Models\JenisSurat;
 use App\Models\Log;
 use App\Models\Surat;
@@ -15,12 +16,13 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() {
+    public function index(JenisSuratChart $jsChart) {
         $data = [
             'user' => User::query()->count(),
             'jenis_surat' => JenisSurat::query()->count(),
             'surat' => Surat::query()->count(),
-            'log' => Log::query()->count()
+            'log' => Log::query()->count(),
+            'jsChart' => $jsChart->build()
         ];
 
         return view('dashboard.index', $data);

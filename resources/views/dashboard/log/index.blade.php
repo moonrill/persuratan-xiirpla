@@ -15,7 +15,7 @@
                         <thead>
                         <tr>
                             <th>No</th>
-                            <th>Username</th>
+                            <th>User</th>
                             <th>Action</th>
                             <th>Log</th>
                             <th>Created At</th>

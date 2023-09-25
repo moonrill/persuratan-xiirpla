@@ -51,5 +51,26 @@
                 </a>
             </div>
         </div>
+    <div class="row">
+        <div class="col bg-white">
+            <div class="card">
+                <div class="card-body">
+                    {!! $jsChart->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
     </div>
+    </div>
+@endsection
+@section('footer')
+    <script src="{{ $jsChart->cdn() }}"></script>
+
+    {{ $jsChart->script() }}
 @endsection
