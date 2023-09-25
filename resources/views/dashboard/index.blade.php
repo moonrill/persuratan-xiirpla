@@ -52,17 +52,17 @@
             </div>
         </div>
     <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    {!! $suratChart->container() !!}
+                </div>
+            </div>
+        </div>
         <div class="col bg-white">
             <div class="card">
                 <div class="card-body">
                     {!! $jsChart->container() !!}
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-
                 </div>
             </div>
         </div>
@@ -73,4 +73,7 @@
     <script src="{{ $jsChart->cdn() }}"></script>
 
     {{ $jsChart->script() }}
+    <script src="{{ $suratChart->cdn() }}"></script>
+
+    {{ $suratChart->script() }}
 @endsection
