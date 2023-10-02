@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('username');
             $table->enum('action', ['INSERT', 'UPDATE', 'DELETE']);
             $table->text('log');
-            $table->date('created_at')->default(Carbon::now('Asia/Jakarta'));
+            $table->dateTime('created_at')->useCurrent();
         });
     }
 
