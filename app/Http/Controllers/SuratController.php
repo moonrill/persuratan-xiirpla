@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SuratCreateRequest;
+use App\Http\Requests\SuratUpdateRequest;
 use App\Models\JenisSurat;
 use App\Models\Surat;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -15,7 +16,7 @@ class SuratController extends Controller
     public function index(): View
     {
         $data = [
-            'surat' => Surat::with('jenis', 'user')->get(),
+            'surat' => Surat::with('jenis', 'user')->orderByDesc('tanggal_surat')->get(),
             'jenis_surat' => JenisSurat::all()
         ];
 
@@ -33,15 +34,15 @@ class SuratController extends Controller
 
         $surat = Surat::query()->create($data);
 
-        if (!$surat){
+        if (!$surat) {
             return response()->json([
                 'message' => 'Failed create surat'
-            ],403);
+            ], 403);
         }
 
         return response()->json([
             'message' => 'Surat created'
-        ],201);
+        ], 201);
     }
 
     public function download(Request $request)
@@ -49,11 +50,22 @@ class SuratController extends Controller
         return Storage::download("public/$request->path");
     }
 
+    public function update(SuratUpdateRequest $request)
+    {
+        $data = $request->validated();
+
+        if (!$request->file('file')) {
+            return 'surat tidak ada';
+        }
+
+        return 'surat ada';
+    }
+
     public function delete(int $id)
     {
         $surat = Surat::query()->find($id);
 
-        if (!$surat){
+        if (!$surat) {
             throw new HttpResponseException(response()->json([
                 'message' => 'Not found'
             ])->setStatusCode(404));
