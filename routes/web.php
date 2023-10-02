@@ -51,6 +51,7 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
         Route::get('/surat', 'index');
         Route::post('/surat', 'store');
         Route::get('/surat/download', 'download');
+        Route::post('/surat/{id}', 'update');
         Route::delete('/surat/{id}', 'delete');
     });
 
