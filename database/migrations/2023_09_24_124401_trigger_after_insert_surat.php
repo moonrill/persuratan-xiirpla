@@ -21,12 +21,12 @@ return new class extends Migration {
                 SELECT username INTO v_username FROM user WHERE id = NEW.id_user;
                 SELECT jenis_surat INTO j_surat FROM jenis_surat WHERE id = NEW.id_jenis_surat;
 
-                SET @ringkasan := IFNULL(NEW.ringkasan, '[NULL]');
-                SET @file := IFNULL(NEW.file, '[NULL]');
+                SET @ringkasan := IFNULL(NEW.ringkasan, 'NULL');
+                SET @file := IFNULL(NEW.file, 'NULL');
 
                 CALL Logger(v_username, 'INSERT',
                     CONCAT(
-                        'id: ', NEW.id,
+                        'id_surat: ', NEW.id,
                         ', jenis_surat: ', j_surat,
                         ', tanggal_surat: ', NEW.tanggal_surat,
                         ', ringkasan: ', @ringkasan,

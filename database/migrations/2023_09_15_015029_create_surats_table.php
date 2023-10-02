@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_jenis_surat')->nullable(false);
             $table->unsignedBigInteger('id_user')->nullable(false);
-            $table->date('tanggal_surat')->default('2023-01-01')->nullable(false);
+            $table->dateTime('tanggal_surat')->default('2023-01-01 00:00:00')->nullable(false);
             $table->text('ringkasan')->nullable(true);
             $table->text('file')->nullable(true);
 

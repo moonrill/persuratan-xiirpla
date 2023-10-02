@@ -33,7 +33,7 @@
                                         @endforeach
                                     </select>
                                     <label>Tanggal Surat</label>
-                                    <input type="date" name="tanggal_surat" id="tanggalSurat" class="form-control mb-3">
+                                    <input type="datetime-local" name="tanggal_surat" id="tanggalSurat" class="form-control mb-3">
                                     <label>Ringkasan</label>
                                     <textarea name="ringkasan" class="form-control mb-3" rows="7"
                                               placeholder="Tulis ringkasan surat disini..."
