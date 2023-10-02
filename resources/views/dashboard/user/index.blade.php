@@ -87,7 +87,6 @@
                                         <div class="modal-body">
                                             <form id="edit-user-form-{{$u->id}}">
                                                 <div class="form-group">
-{{--                                                    <input type="hidden" name="idUser" value="{{$u->id}}">--}}
                                                     <label>Username</label>
                                                     <input placeholder="Username" type="text" class="form-control mb-3"
                                                            name="username"
@@ -150,7 +149,7 @@
         $('.editBtn').on('click', function (e) {
             e.preventDefault();
             let idUser = $(this).attr('idUser');
-            $(`#edit-user-form-${idUser}`).on('submit', function (e){
+            $(`#edit-user-form-${idUser}`).on('submit', function (e) {
                 e.preventDefault();
                 let data = new FormData(e.target);
                 axios.post(`/dashboard/user/${idUser}/edit`, Object.fromEntries(data))
