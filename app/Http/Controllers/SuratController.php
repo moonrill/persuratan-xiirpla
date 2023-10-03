@@ -53,12 +53,24 @@ class SuratController extends Controller
     public function update(SuratUpdateRequest $request)
     {
         $data = $request->validated();
+        $surat = Surat::query()->find($request->id);
 
-        if (!$request->file('file')) {
-            return 'surat tidak ada';
+        if ($path = $request->file('file')) {
+            // Delete old file
+            if ($surat->file) {
+                Storage::delete("public/$surat->file");
+            }
+
+            // Store new file
+            $path = $path->storePublicly('', 'public');
+            $data['file'] = $path;
         }
 
-        return 'surat ada';
+        $surat->fill($data)->save();
+
+        return [
+            'message' => 'Berhasil update surat!'
+        ];
     }
 
     public function delete(int $id)

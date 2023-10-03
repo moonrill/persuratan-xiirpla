@@ -23,7 +23,8 @@
                             <form id="tambah-surat-form" enctype="multipart/form-data">
                                 <div class="form-group">
                                     @auth
-                                        <input type="hidden" name="id_user" class="d-none" value="{{ Auth::user()["id"] }}">
+                                        <input type="hidden" name="id_user" class="d-none"
+                                               value="{{ Auth::user()["id"] }}">
                                     @endauth
                                     <label>Jenis Surat</label>
                                     <select name="id_jenis_surat" id="jenisSurat" class="form-select mb-3">
@@ -33,7 +34,8 @@
                                         @endforeach
                                     </select>
                                     <label>Tanggal Surat</label>
-                                    <input type="datetime-local" name="tanggal_surat" id="tanggalSurat" class="form-control mb-3">
+                                    <input type="datetime-local" name="tanggal_surat" id="tanggalSurat"
+                                           class="form-control mb-3">
                                     <label>Ringkasan</label>
                                     <textarea name="ringkasan" class="form-control mb-3" rows="7"
                                               placeholder="Tulis ringkasan surat disini..."
@@ -41,7 +43,8 @@
                                     <label class="d-block">File : </label>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-3">
-                                            <label for="fileUpload" class="btn p-1 w-100 btn-outline-success form-control">Upload
+                                            <label for="fileUpload"
+                                                   class="btn p-1 w-100 btn-outline-success form-control">Upload
                                                 File</label>
                                             <input type="file" accept=".pdf" name="file" id="fileUpload" class="d-none">
                                         </div>
@@ -54,7 +57,8 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" onclick="clearText()" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" onclick="clearText()"
+                                    data-bs-dismiss="modal">
                                 Cancel
                             </button>
                             <button type="submit" class="btn btn-primary" form="tambah-surat-form">Tambah</button>
@@ -93,7 +97,8 @@
                                 <td>{{$s->ringkasan}}</td>
                                 <td class="col-1">
                                     @if($s->file)
-                                        <a class="btn btn-primary" href="{{url("dashboard/surat?path=$s->file", ['download'])}}">Download</a>
+                                        <a class="btn btn-primary"
+                                           href="{{url("dashboard/surat?path=$s->file", ['download'])}}">Download</a>
                                     @else
                                         <p>No File</p>
                                     @endif
@@ -117,20 +122,24 @@
                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Surat</h1>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="edit-surat-form-{{$s->id}}">
+                                            <form id="edit-surat-form-{{$s->id}}" enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     @auth
-                                                        <input type="hidden" name="id_user" class="d-none" value="{{ Auth::user()["id"] }}">
+                                                        <input type="hidden" name="id_user" class="d-none"
+                                                               value="{{ Auth::user()["id"] }}">
                                                     @endauth
                                                     <label>Jenis Surat</label>
-                                                    <select name="id_jenis_surat" id="jenisSurat" class="form-select mb-3">
+                                                    <select name="id_jenis_surat" id="jenisSurat"
+                                                            class="form-select mb-3">
                                                         @foreach($jenis_surat as $js)
-                                                            <option value="{{$js->id}}" @if($js->id === $s->id_jenis_surat) selected
+                                                            <option value="{{$js->id}}"
+                                                                    @if($js->id === $s->id_jenis_surat) selected
                                                                 @endif>{{$js->jenis_surat}}</option>
                                                         @endforeach
                                                     </select>
                                                     <label>Tanggal Surat</label>
-                                                    <input type="datetime-local" name="tanggal_surat" id="tanggalSurat" class="form-control mb-3"
+                                                    <input type="datetime-local" name="tanggal_surat" id="tanggalSurat"
+                                                           class="form-control mb-3"
                                                            value="{{$s->tanggal_surat}}">
                                                     <label>Ringkasan</label>
                                                     <textarea name="ringkasan" class="form-control mb-3" rows="7"
@@ -140,10 +149,12 @@
                                                     <label class="d-block">File : </label>
                                                     <div class="row d-flex align-items-center">
                                                         <div class="col-3">
-                                                            {{-- TODO: Fix can't upload file --}}
-                                                            <label for="fileUpload" class="btn p-1 w-100 btn-outline-success form-control">Upload
-                                                                File</label>
-                                                            <input type="file" name="file" id="fileUpload" class="d-none">
+                                                            <label
+                                                                class="btn p-1 w-100 btn-outline-success form-control">
+                                                                <span>Upload File</span>
+                                                                <input type="file" name="file" class="d-none"
+                                                                       id="fileUpload">
+                                                            </label>
                                                         </div>
                                                         <div class="col p-0">
                                                             <p class="fileName m-0 d-inline-block"></p>
@@ -154,7 +165,8 @@
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" onclick="clearText()" data-bs-dismiss="modal">
+                                            <button type="button" class="btn btn-secondary" onclick="clearText()"
+                                                    data-bs-dismiss="modal">
                                                 Cancel
                                             </button>
                                             <button type="submit" class="btn btn-primary edit-btn"
@@ -184,7 +196,7 @@
     <script type="module">
         $('.table').DataTable();
 
-        $('#fileUpload').on('change', function () {
+        $('input[type=file]').on('change', function () {
             const fileName = $(this).val().replace(/.*(\/|\\)/, '');
             $(`.fileName`).text(fileName);
         })
@@ -211,21 +223,20 @@
 
         /*-------------------------- EDIT SURAT -------------------------- */
         $('.editBtn').on('click', function (e) {
-            $('#fileUpload').trigger('change');
+            $('input[type=file]').trigger('change');
 
             e.preventDefault();
             let idSurat = $(this).attr('idSurat');
             $(`#edit-surat-form-${idSurat}`).on('submit', function (e) {
                 e.preventDefault();
                 let data = new FormData(this);
-                console.log(Object.fromEntries(data));
+                // console.log(Object.fromEntries(data));
                 axios.post(`/dashboard/surat/${idSurat}`, data)
                     .then((res) => {
-                        console.log(res);
-                        // $(`#edit-modal-${idJS}`).css('display', 'none')
-                        // swal.fire('Berhasil edit data!', '', 'success').then(function () {
-                        //     location.reload();
-                        // })
+                        $(`#edit-modal-${idSurat}`).css('display', 'none')
+                        swal.fire('Berhasil edit data!', '', 'success').then(function () {
+                            location.reload();
+                        })
                     })
                     .catch((err) => {
                         console.log(err)
