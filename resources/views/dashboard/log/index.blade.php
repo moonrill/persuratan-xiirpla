@@ -14,7 +14,7 @@
                     <table class="table table-bordered table-hovered DataTable">
                         <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Log ID</th>
                             <th>User</th>
                             <th>Action</th>
                             <th>Log</th>
@@ -22,9 +22,12 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <?php
+                        $no = 1;
+                        ?>
                         @foreach($logs as $log)
                             <tr>
-                                <td class="col-1">{{$log->id}}</td>
+                                <td class="col-1">{{$no++}}</td>
                                 <td>{{$log->username}}</td>
                                 <td>{{$log->action}}</td>
                                 <td>{{$log->log}}</td>
