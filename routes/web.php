@@ -57,6 +57,7 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
         Route::get('/surat/download', 'download');
         Route::post('/surat/{id}', 'update');
         Route::delete('/surat/{id}', 'delete');
+        Route::delete('/surat/{id}/file', 'deleteFile');
     });
 
     /* Log */

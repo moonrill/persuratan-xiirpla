@@ -96,20 +96,29 @@
                                 <td class="col-2">{{$s->tanggal_surat}}</td>
                                 <td>{{$s->ringkasan}}</td>
                                 <td class="col-1">
-                                    @if($s->file)
-                                        <a class="btn btn-primary"
-                                           href="{{url("dashboard/surat?path=$s->file", ['download'])}}">Download</a>
-                                    @else
-                                        <p>No File</p>
-                                    @endif
+                                    <div class="w-100 d-flex flex-column">
+                                        @if($s->file)
+                                            <a class="btn btn-primary mb-1"
+                                               href="{{url("dashboard/surat?path=$s->file", ['download'])}}">Download</a>
+                                            <a class="btn btn-danger del-file" title="Delete file" idSurat="{{$s->id}}">
+                                                <i class="bi bi-trash3"></i>File</a>
+                                        @else
+                                            <p>No File</p>
+                                        @endif
+
+                                    </div>
                                 </td>
-                                <td class="col-2">
-                                    <!-- Button trigger edit modal -->
-                                    <button type="button" class="editBtn btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal-{{$s->id}}" idSurat="{{$s->id}}">
-                                        Edit
-                                    </button>
-                                    <button class="hapusBtn btn btn-danger">Hapus</button>
+                                <td class="col-1">
+                                    <div class="w-100 d-flex flex-column">
+                                        <!-- Button trigger edit modal -->
+                                        <button type="button" class="editBtn btn btn-warning mb-1"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#edit-modal-{{$s->id}}" idSurat="{{$s->id}}"><i
+                                                class="bi bi-pencil"></i>
+                                            Edit
+                                        </button>
+                                        <button class="hapusBtn btn btn-danger" title="Delete surat">Hapus</button>
+                                    </div>
                                 </td>
                             </tr>
                             <!-- Edit User Modal -->
@@ -209,7 +218,7 @@
             axios.post('/dashboard/surat', data, {
                 'Content-Type': 'multipart/form-data'
             })
-                .then((res) => {
+                .then(() => {
                     $('#tambah-surat-modal').css('display', 'none')
                     swal.fire('Berhasil tambah data!', '', 'success').then(function () {
                         location.reload();
@@ -232,7 +241,7 @@
                 let data = new FormData(this);
                 // console.log(Object.fromEntries(data));
                 axios.post(`/dashboard/surat/${idSurat}`, data)
-                    .then((res) => {
+                    .then(() => {
                         $(`#edit-modal-${idSurat}`).css('display', 'none')
                         swal.fire('Berhasil edit data!', '', 'success').then(function () {
                             location.reload();
@@ -245,7 +254,42 @@
             })
         })
 
-        /*-------------------------- HAPUS USER -------------------------- */
+        /*-------------------------- HAPUS SURAT -------------------------- */
+        $('.del-file').on('click', function (e) {
+            e.preventDefault();
+            let idSurat = $(this).attr('idSurat');
+
+            swal.fire({
+                title: "Apakah anda ingin menghapus file ini?",
+                showCancelButton: true,
+                confirmButtonText: 'Setuju',
+                cancelButtonText: `Batal`,
+                confirmButtonColor: 'red'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`/dashboard/surat/${idSurat}/file`)
+                        .then(function (response) {
+                            console.log(response);
+                            if (response.data.success) {
+                                swal.fire('Berhasil di hapus!', '', 'success').then(function () {
+                                    //Refresh Halaman
+                                    location.reload();
+                                });
+                            } else {
+                                swal.fire('Gagal di hapus!', '', 'warning');
+                            }
+                        }).catch(function () {
+                        swal.fire('Data gagal di hapus!', '', 'error').then(function () {
+                            //Refresh Halaman
+                            location.reload();
+                        });
+                    });
+                }
+            })
+
+        })
+
+        /*-------------------------- HAPUS SURAT -------------------------- */
         $('.table').on('click', '.hapusBtn', function () {
             let idSurat = $(this).closest('tr').attr('idSurat');
             swal.fire({
@@ -268,7 +312,7 @@
                             } else {
                                 swal.fire('Gagal di hapus!', '', 'warning');
                             }
-                        }).catch(function (error) {
+                        }).catch(function () {
                         swal.fire('Data gagal di hapus!', '', 'error').then(function () {
                             //Refresh Halaman
                             location.reload();

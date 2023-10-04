@@ -93,4 +93,20 @@ class SuratController extends Controller
             'message' => 'Berhasil menghapus surat'
         ], 200);
     }
+
+    public function deleteFile(int $id)
+    {
+        $surat = Surat::query()->find($id);
+
+        // Deleting file
+        Storage::delete("public/$surat->file");
+
+        // Set null on path surat in database
+        $surat->fill(['file' => null])->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil hapus file!'
+        ], 200);
+    }
 }
