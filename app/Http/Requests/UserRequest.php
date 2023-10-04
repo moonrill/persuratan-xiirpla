@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -28,6 +29,20 @@ class UserRequest extends FormRequest
             'username' => ['required', 'max:200'],
             'password' => ['required'],
             'role' => ['required', Rule::in(['admin', 'operator'])]
+        ];
+    }
+
+    public function after()
+    {
+        return [
+            function (Validator $validator) {
+                if (User::query()->where('username', $this->username)->count() >= 1) {
+                    $validator->errors()->add(
+                        'username',
+                        "User $this->username already exists"
+                    );
+                }
+            }
         ];
     }
 

@@ -23,9 +23,14 @@ class JenisSuratController extends Controller
             'jenis_surat' => ['required', 'max:40']
         ]);
 
+        if (JenisSurat::query()->where('jenis_surat', $request->jenis_surat)->count() >= 1) {
+            return response()->json([
+                'message' => "Jenis surat $request->jenis_surat already exists."
+            ], 400);
+        }
+
         if ($data) {
             if ($request->input('id') !== null) {
-                // TODO: Update Jenis Surat
                 $jenis_surat = JenisSurat::query()->find($request->input('id'));
                 $jenis_surat->fill($data);
                 $jenis_surat->save();

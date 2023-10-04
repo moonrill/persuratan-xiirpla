@@ -111,7 +111,7 @@
 @section('footer')
     <script type="module">
         $('.table').DataTable();
-        /*-------------------------- TAMBAH USER -------------------------- */
+        /*-------------------------- TAMBAH JENIS SURAT -------------------------- */
         $('#tambah-jenis-surat-form').on('submit', function (e) {
             e.preventDefault();
             let data = new FormData(e.target);
@@ -122,12 +122,13 @@
                         location.reload();
                     })
                 })
-                .catch(() => {
-                    swal.fire('Gagal tambah data!', '', 'warning');
+                .catch(({response}) => {
+                    swal.fire('Gagal tambah data!', `<strong class="text-danger">${response.data.message}</strong>`,
+                        'warning');
                 });
         })
 
-        /*-------------------------- EDIT USER -------------------------- */
+        /*-------------------------- EDIT JENIS SURAT -------------------------- */
         $('.editBtn').on('click', function (e) {
             e.preventDefault();
             let idJS = $(this).attr('idJS');
@@ -148,7 +149,7 @@
             })
         })
 
-        /*-------------------------- HAPUS USER -------------------------- */
+        /*-------------------------- HAPUS JENIS SURAT -------------------------- */
         $('.table').on('click', '.hapusBtn', function () {
             let idJS = $(this).closest('tr').attr('idJS');
             swal.fire({

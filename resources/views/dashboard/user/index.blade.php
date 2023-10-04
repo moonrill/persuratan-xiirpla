@@ -140,8 +140,10 @@
                         location.reload();
                     })
                 })
-                .catch(() => {
-                    swal.fire('Gagal tambah data!', '', 'warning');
+                .catch(({response}) => {
+                    console.log(response);
+                    swal.fire('Gagal tambah data!', `<strong class="text-danger">${response.data.errors.username}</strong>`,
+                        'warning');
                 });
         })
 
