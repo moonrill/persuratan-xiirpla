@@ -14,7 +14,7 @@
                     <table class="table table-bordered table-hovered DataTable">
                         <thead>
                         <tr>
-                            <th>Log ID</th>
+                            <th class="text-center">No</th>
                             <th>User</th>
                             <th>Action</th>
                             <th>Log</th>
@@ -26,12 +26,28 @@
                         $no = 1;
                         ?>
                         @foreach($logs as $log)
+                        @php
+                            $type = "";
+                            switch($log->action) {
+                                case "UPDATE":
+                                    $type = "success";
+                                    break;
+                                case "INSERT":
+                                    $type = "primary";
+                                    break;
+                                case "DELETE":
+                                    $type = "danger";
+                                    break;
+                            }
+                        @endphp
                             <tr>
-                                <td class="col-1">{{$no++}}</td>
+                                <td class="text-center">{{$no++}}</td>
                                 <td>{{$log->username}}</td>
-                                <td>{{$log->action}}</td>
+                                <td class="text-center">
+                                    <div @class(["d-flex", "justify-content-center", "badge", "text-center", "text-bg-$type", "p-2"])>{{$log->action}}</div>
+                                </td>
                                 <td>{{$log->log}}</td>
-                                <td>{{$log->created_at}}</td>
+                                <td class="col-2">{{$log->created_at}}</td>
                             </tr>
                         @endforeach
                         </tbody>

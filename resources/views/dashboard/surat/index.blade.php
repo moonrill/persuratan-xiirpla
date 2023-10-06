@@ -254,7 +254,7 @@
             })
         })
 
-        /*-------------------------- HAPUS SURAT -------------------------- */
+        /*-------------------------- HAPUS FILE SURAT -------------------------- */
         $('.del-file').on('click', function (e) {
             e.preventDefault();
             let idSurat = $(this).attr('idSurat');
