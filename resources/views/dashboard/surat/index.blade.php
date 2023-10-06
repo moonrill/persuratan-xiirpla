@@ -153,8 +153,7 @@
                                                     <label>Ringkasan</label>
                                                     <textarea name="ringkasan" class="form-control mb-3" rows="7"
                                                               placeholder="Tulis ringkasan surat disini..."
-                                                              style="resize: none">{{$s->ringkasan}}
-                                                    </textarea>
+                                                              style="resize: none">{{$s->ringkasan}}</textarea>
                                                     <label class="d-block">File : </label>
                                                     <div class="row d-flex align-items-center">
                                                         <div class="col-3">
