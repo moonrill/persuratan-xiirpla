@@ -251,9 +251,15 @@
                             location.reload();
                         })
                     })
-                    .catch((err) => {
-                        console.log(err)
-                        swal.fire('Gagal tambah data!', '', 'warning');
+                    .catch(({response}) => {
+                        // console.log(err)
+                        let message = '';
+
+                        Object.values(response.data.errors).flat().map((e) =>
+                            message += `<strong class="text-danger d-block">${e}</strong>`
+                        );
+
+                        swal.fire('Gagal tambah data!', `${message}`, 'warning');
                     })
             })
         })
