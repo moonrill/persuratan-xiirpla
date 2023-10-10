@@ -18,7 +18,7 @@
                             <th>User</th>
                             <th>Action</th>
                             <th>Log</th>
-                            <th>Created At</th>
+                            <th>Created at</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -30,10 +30,10 @@
                             $type = "";
                             switch($log->action) {
                                 case "UPDATE":
-                                    $type = "success";
+                                    $type = "warning";
                                     break;
                                 case "INSERT":
-                                    $type = "primary";
+                                    $type = "success";
                                     break;
                                 case "DELETE":
                                     $type = "danger";
